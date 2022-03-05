@@ -17,4 +17,9 @@ public class Reporting {
 	public void reportIteration() {
 		this.iterations++;
 	}
+	
+	public void clear() {
+		this.generationAttempts = 0;
+		this.iterations = 0;
+	}
 }

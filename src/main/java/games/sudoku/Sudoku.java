@@ -1,71 +1,69 @@
 package games.sudoku;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Scanner;
 
 import lombok.Data;
 
 @Data
 public class Sudoku {
-	private RootMatrix matrix;
-	private Random random;
+	private Matrix matrix;
 
 	public Sudoku() {
-		this.matrix = new RootMatrix();
-		this.random = new Random();
+		this.matrix = new Matrix();
+	}
+	
+	public boolean isGenerated() {
+		for (int i = 0; i < 9; i++) {
+			for (int j = 0; j < 9; j++) {
+				Cell cell = matrix.getCell(i, j);
+				if (!cell.hasNumber())
+					return false;
+			}
+		}
+		return true;
 	}
 
-	public void hideNumbersRandomly(int count) {
+	public void clear() {
+		matrix.clear();
+	}
+
+	public void hideNumbers(int count) {
 	    ArrayList<Integer> removedIndexes = new ArrayList<>();
+		Random random = new Random();
 		for (int i = 0; i < count; i++) {
 			int index = random.nextInt(81);
 			while (removedIndexes.contains(Integer.valueOf(index))) {
 				index = random.nextInt(81);
 			}
-			removedIndexes.add(index);
 			
 			Cell cell = matrix.getCell(index / 9, index % 9);
-			cell.setNumber(Cell.UNSET);
+			cell.clear();
+			removedIndexes.add(index);
 		}
+	}
+
+	public static Sudoku fromFile(String filepath) throws IOException {
+		Sudoku sudoku = new Sudoku();
+		
+		try (Scanner scanner = new Scanner(new File(filepath))) {
+			for (int i = 0; i < 9; i++) {
+				for (int j = 0; j < 9; j++) {
+					int nextInt = scanner.nextInt();
+					sudoku.getMatrix().getCell(i, j).setNumber(nextInt);
+				}
+			}
+		}
+		
+		return sudoku;
 	}
 
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		
-		for (int i = 0; i <= 8; i++) {
-			addDashes(builder, i);
-			
-			for (int j = 0; j <= 8; j++) {
-				addPips(builder, j);
-				
-				if (j != 0) {
-					builder.append(" ");
-				}
-				builder.append(matrix.getCell(i, j));
-			}
-			
-			if (i < 8) {
-				builder.append("\n");
-			}
-		}
-		
-		return builder.toString();
-	}
-
-	private void addDashes(StringBuilder builder, int i) {
-		if (i % 3 == 0 && i != 0) {
-			for (int k = 0; k < 9 * 2 + 4; k++) {
-				builder.append("-");
-			}
-			builder.append("\n");
-		}
-	}
-
-	private void addPips(StringBuilder builder, int j) {
-		if (j % 3 == 0 && j != 0) {
-			builder.append(" ");
-			builder.append("|");
-		}
+		SudokuPrinter printer = new SudokuPrinter();
+		return printer.toString(this);
 	}
 }

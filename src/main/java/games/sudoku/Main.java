@@ -9,20 +9,19 @@ public class Main {
 	public static void main(String[] args) {
 		ConfigurableApplicationContext context = SpringApplication.run(Main.class, args);
 
-		Generator generator = context.getBean(Generator.class);
+		SudokuGenerator generator = context.getBean(SudokuGenerator.class);
 		Sudoku sudoku = generator.generateSudoku();
-		sudoku.hideNumbersRandomly(30);
+		sudoku.hideNumbers(30);
 
-		//printReporting(context);
-
+		printReporting(context);
 		System.out.print(sudoku);
 	}
 
 	@SuppressWarnings("unused")
 	private static void printReporting(ConfigurableApplicationContext context) {
 		Reporting reporting = context.getBean(Reporting.class);
-		System.out.println(reporting.getGenerationAttempts());
-		System.out.println(reporting.getIterations());
+		System.out.println("Attempts: " + reporting.getGenerationAttempts());
+		System.out.println("Iterations: " + reporting.getIterations());
 		System.out.println();
 	}
 }
