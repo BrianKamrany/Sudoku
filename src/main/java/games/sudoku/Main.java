@@ -11,7 +11,7 @@ public class Main {
 
 		SudokuGenerator generator = context.getBean(SudokuGenerator.class);
 		Sudoku sudoku = generator.generateSudoku();
-		sudoku.hideNumbers(30);
+		sudoku.hideNumbers(10);
 
 		printReporting(context);
 		System.out.print(sudoku);

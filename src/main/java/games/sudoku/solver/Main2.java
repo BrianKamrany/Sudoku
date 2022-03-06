@@ -13,11 +13,11 @@ public class Main2 {
 	public static void main(String[] args) throws IOException {
 		ConfigurableApplicationContext context = SpringApplication.run(Main2.class, args);
 
-		Sudoku sudoku = Sudoku.fromFile("one_solution.txt");
-		//Sudoku sudoku = Sudoku.fromFile("two_solutions.txt");
+		//Sudoku sudoku = Sudoku.fromFile("one_solution.txt");
+		Sudoku sudoku = Sudoku.fromFile("two_solutions.txt");
 		System.out.println(sudoku);
 
-		Solver solver = context.getBean(Solver.class);
+		SudokuSolver solver = context.getBean(SudokuSolver.class);
 		System.out.println(solver.countSolutions(sudoku));
 	}
 }

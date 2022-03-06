@@ -63,4 +63,9 @@ public class SubMatrix {
 			}
 		}
 	}
+
+	public boolean isSolved() {
+		List<Integer> boxNumbers = getBoxNumbers();
+		return boxNumbers.containsAll(Matrix.ALLOWED_NUMBERS);
+	}
 }
