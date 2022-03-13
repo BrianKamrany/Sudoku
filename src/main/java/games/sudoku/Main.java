@@ -1,20 +1,22 @@
 package games.sudoku;
 
+import java.io.IOException;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
 @SpringBootApplication
 public class Main {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		ConfigurableApplicationContext context = SpringApplication.run(Main.class, args);
 
 		SudokuGenerator generator = context.getBean(SudokuGenerator.class);
 		Sudoku sudoku = generator.generateSudoku();
-		sudoku.hideNumbers(10);
 
-		printReporting(context);
+		sudoku.writeToFile();
 		System.out.print(sudoku);
+		printReporting(context);
 	}
 
 	@SuppressWarnings("unused")

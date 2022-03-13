@@ -2,9 +2,12 @@ package games.sudoku;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
+
+import org.apache.commons.io.FileUtils;
 
 import lombok.Data;
 
@@ -59,6 +62,11 @@ public class Sudoku {
 		}
 		
 		return sudoku;
+	}
+
+	public void writeToFile() throws IOException {
+		File file = new File("sudoku.txt");
+		FileUtils.writeStringToFile(file, this.toString(), StandardCharsets.UTF_8);
 	}
 
 	@Override

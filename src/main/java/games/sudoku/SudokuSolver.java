@@ -1,21 +1,17 @@
-package games.sudoku.solver;
+package games.sudoku;
 
 import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import games.sudoku.Cell;
-import games.sudoku.Matrix;
-import games.sudoku.SubMatrix;
-import games.sudoku.Sudoku;
-
 @Component
 public class SudokuSolver {
 	private int count = 0;
 
-	public int countSolutions(Sudoku sudoku) {
+	public boolean isUnique(Sudoku sudoku) {
+		this.count = 0;
 		countSolutionsRecursively(sudoku);
-		return count;
+		return count == 1;
 	}
 
 	public void countSolutionsRecursively(Sudoku sudoku) {
@@ -26,6 +22,7 @@ public class SudokuSolver {
 		for (int i = 0; i < 9; i++) {
 			for (int j = 0; j < 9; j++) {
 				Cell cell = sudoku.getMatrix().getCell(i, j);
+				
 				if (!cell.hasNumber()) {
 					for (int k = 1; k <= 9; k++) {
 						if (!isLegal(sudoku, k, i, j))
@@ -36,8 +33,8 @@ public class SudokuSolver {
 						//System.out.println(sudoku);
 						
 						if (isBoardSolved(sudoku)) {
-							System.out.println(sudoku);
-							count++;
+							//System.out.println(sudoku);
+							this.count++;
 						}
 						cell.clear();
 					}
@@ -67,10 +64,15 @@ public class SudokuSolver {
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
 				SubMatrix sub = matrixes[i][j];
-				if (!sub.isSolved())
+				if (!isSolved(sub))
 					return false;
 			}
 		}
 		return true;
+	}
+
+	public boolean isSolved(SubMatrix sub) {
+		List<Integer> boxNumbers = sub.getBoxNumbers();
+		return boxNumbers.containsAll(Matrix.ALLOWED_NUMBERS);
 	}
 }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class SudokuGenerator {
 	@Inject private Reporting reporting;
+	@Inject private SudokuSolver solver;
 
 	private Sudoku sudoku;
 	
@@ -17,10 +18,16 @@ public class SudokuGenerator {
 		reporting.clear();
 		sudoku = new Sudoku();
 		
-		while (!sudoku.isGenerated()) {
+		boolean unique = false;
+		while (!unique) {
 			sudoku.clear();
-			tryToFillWithRandomNumbers();
-			reporting.reportGenerationAttempt();
+			while (!sudoku.isGenerated()) {
+				sudoku.clear();
+				tryToFillWithRandomNumbers();
+				reporting.reportGenerationAttempt();
+			}
+			sudoku.hideNumbers(30);
+			unique = solver.isUnique(sudoku);
 		}
 		
 		return sudoku;
