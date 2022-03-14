@@ -22,37 +22,33 @@ public class SubMatrix {
 		return cells[i][j];
 	}
 	
-	/*public Cell getCellAbsolute(int i, int j) {
-		return cells[i][j];
-	}*/
-	
-	public List<Integer> getRowNumbers(int i) {
-		ArrayList<Integer> rowNumbers = new ArrayList<>();
+	public List<Integer> getRowNumbers(int row) {
+		ArrayList<Integer> numbers = new ArrayList<>();
 		for (int j = 0; j < 3; j++) {
-			Cell cell = cells[i][j];
-			rowNumbers.add(cell.getNumber());
+			Cell cell = cells[row][j];
+			numbers.add(cell.getNumber());
 		}
-		return rowNumbers;
+		return numbers;
 	}
 	
-	public List<Integer> getColumnNumbers(int j) {
-		ArrayList<Integer> columnNumbers = new ArrayList<>();
+	public List<Integer> getColumnNumbers(int column) {
+		ArrayList<Integer> numbers = new ArrayList<>();
 		for (int i = 0; i < 3; i++) {
-			Cell cell = cells[i][j];
-			columnNumbers.add(cell.getNumber());
+			Cell cell = cells[i][column];
+			numbers.add(cell.getNumber());
 		}
-		return columnNumbers;
+		return numbers;
 	}
 
 	public List<Integer> getBoxNumbers() {
-		ArrayList<Integer> boxNumbers = new ArrayList<>();
+		ArrayList<Integer> numbers = new ArrayList<>();
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
 				Cell cell = cells[i][j];
-				boxNumbers.add(cell.getNumber());
+				numbers.add(cell.getNumber());
 			}
 		}
-		return boxNumbers;
+		return numbers;
 	}
 	
 	public void clear() {
@@ -62,5 +58,9 @@ public class SubMatrix {
 				cell.clear();
 			}
 		}
+	}
+
+	public boolean isSolved() {
+		return getBoxNumbers().containsAll(Matrix.ALLOWED_NUMBERS);
 	}
 }

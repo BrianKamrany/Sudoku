@@ -4,24 +4,24 @@ import lombok.Data;
 
 @Data
 public class Cell {
-	public static final int UNSET = Integer.valueOf(0);
+	private static final int UNSET_VALUE = 0;
 	
 	private Integer number;
 
 	public Cell() {
-		this.number = UNSET;
+		this.number = UNSET_VALUE;
 	}
 	
 	public boolean hasNumber() {
-		return number != UNSET;
+		return !number.equals(UNSET_VALUE);
 	}
 
 	public void clear() {
-		this.number = UNSET;
+		this.number = UNSET_VALUE;
 	}
 
 	@Override
 	public String toString() {
-		return number != UNSET ? String.valueOf(number) : " ";
+		return hasNumber() ? String.valueOf(number) : " ";
 	}
 }

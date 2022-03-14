@@ -16,7 +16,7 @@ public class Main {
 
 		sudoku.writeToFile();
 		System.out.print(sudoku);
-		printReporting(context);
+		//printReporting(context);
 	}
 
 	@SuppressWarnings("unused")
@@ -24,6 +24,5 @@ public class Main {
 		Reporting reporting = context.getBean(Reporting.class);
 		System.out.println("Attempts: " + reporting.getGenerationAttempts());
 		System.out.println("Iterations: " + reporting.getIterations());
-		System.out.println();
 	}
 }

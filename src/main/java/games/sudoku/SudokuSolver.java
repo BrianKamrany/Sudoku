@@ -6,73 +6,42 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class SudokuSolver {
-	private int count = 0;
+	private int solutions;
 
 	public boolean isUnique(Sudoku sudoku) {
-		this.count = 0;
-		countSolutionsRecursively(sudoku);
-		return count == 1;
+		return solve(sudoku) == 1;
 	}
 
-	public void countSolutionsRecursively(Sudoku sudoku) {
-		/*if (count == 2)
-			return;*/
-		
-        outerloop:
+	private int solve(Sudoku sudoku) {
+		this.solutions = 0;
+		countSolutions(sudoku);
+		return solutions;
+	}
+
+	private void countSolutions(Sudoku sudoku) {
+		Matrix matrix = sudoku.getMatrix();
 		for (int i = 0; i < 9; i++) {
 			for (int j = 0; j < 9; j++) {
-				Cell cell = sudoku.getMatrix().getCell(i, j);
+				Cell cell = matrix.getCell(i, j);
 				
 				if (!cell.hasNumber()) {
-					for (int k = 1; k <= 9; k++) {
-						if (!isLegal(sudoku, k, i, j))
-							continue;
+					List<Integer> numbers = matrix.getValidNumbers(i, j);
+					
+					for (Integer number : numbers) {
+						cell.setNumber(number);
 						
-						cell.setNumber(k);
-						countSolutionsRecursively(sudoku);
-						//System.out.println(sudoku);
+						countSolutions(sudoku);
 						
-						if (isBoardSolved(sudoku)) {
-							//System.out.println(sudoku);
-							this.count++;
+						if (matrix.isSolved()) {
+							this.solutions++;
 						}
+						
 						cell.clear();
 					}
-					break outerloop;
+					
+					return;
 				}
 			}
 		}
-	}
-
-	private boolean isLegal(Sudoku sudoku, int k, int i, int j) {
-		List<Integer> allowedNumbers = sudoku.getMatrix().getAllowedNumbers(i, j);
-		return allowedNumbers.contains(k);
-	}
-
-	private boolean isBoardSolved(Sudoku sudoku) {
-		for (int i = 0; i < 9; i++) {
-			if (!sudoku.getMatrix().getRowNumbers(i).containsAll(Matrix.ALLOWED_NUMBERS))
-				return false;
-		}
-		
-		for (int j = 0; j < 9; j++) {
-			if (!sudoku.getMatrix().getColumnNumbers(j).containsAll(Matrix.ALLOWED_NUMBERS))
-				return false;
-		}
-		
-		SubMatrix[][] matrixes = sudoku.getMatrix().getMatrixes();
-		for (int i = 0; i < 3; i++) {
-			for (int j = 0; j < 3; j++) {
-				SubMatrix sub = matrixes[i][j];
-				if (!isSolved(sub))
-					return false;
-			}
-		}
-		return true;
-	}
-
-	public boolean isSolved(SubMatrix sub) {
-		List<Integer> boxNumbers = sub.getBoxNumbers();
-		return boxNumbers.containsAll(Matrix.ALLOWED_NUMBERS);
 	}
 }

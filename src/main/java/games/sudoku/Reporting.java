@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 public class Reporting {
 	private int generationAttempts;
-	private long iterations;
+	private int iterations;
 	
 	public void reportGenerationAttempt() {
 		this.generationAttempts++;
