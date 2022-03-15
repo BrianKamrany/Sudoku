@@ -19,20 +19,19 @@ public class SudokuSolver {
 	}
 
 	private void countSolutions(Sudoku sudoku) {
-		Matrix matrix = sudoku.getMatrix();
 		for (int i = 0; i < 9; i++) {
 			for (int j = 0; j < 9; j++) {
-				Cell cell = matrix.getCell(i, j);
+				Cell cell = sudoku.getMatrix().getCell(i, j);
 				
 				if (!cell.hasNumber()) {
-					List<Integer> numbers = matrix.getValidNumbers(i, j);
+					List<Integer> numbers = sudoku.getMatrix().getValidNumbers(i, j);
 					
 					for (Integer number : numbers) {
 						cell.setNumber(number);
 						
 						countSolutions(sudoku);
 						
-						if (matrix.isSolved()) {
+						if (sudoku.getMatrix().isSolved()) {
 							this.solutions++;
 						}
 						

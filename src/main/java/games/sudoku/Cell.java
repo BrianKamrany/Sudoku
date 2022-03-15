@@ -22,6 +22,6 @@ public class Cell {
 
 	@Override
 	public String toString() {
-		return hasNumber() ? String.valueOf(number) : " ";
+		return hasNumber() ? String.valueOf(number) : "0";
 	}
 }

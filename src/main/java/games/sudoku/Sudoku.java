@@ -20,7 +20,10 @@ public class Sudoku {
 	public static Sudoku fromFile(String filepath) throws IOException {
 		Sudoku sudoku = new Sudoku();
 		
-		try (Scanner scanner = new Scanner(new File(filepath))) {
+		String unprocessedSudoku = FileUtils.readFileToString(new File(filepath), StandardCharsets.UTF_8);
+		String zeroStringSudoku = unprocessedSudoku.replaceAll("-", "").replaceAll(" \\| ", " ").replaceAll("\\|", "").replaceAll("  ", " 0");
+		
+		try (Scanner scanner = new Scanner(zeroStringSudoku)) {
 			for (int i = 0; i < 81; i++) {
 				int number = scanner.nextInt();
 				sudoku.getMatrix().getCell(i).setNumber(number);

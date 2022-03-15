@@ -15,19 +15,15 @@ public class Matrix {
 	
 	public Matrix() {
 		this.matrixes = new SubMatrix[3][3];
-		for (int i = 0; i < 3; i++) {
-			for (int j = 0; j < 3; j++) {
-				this.matrixes[i][j] = new SubMatrix();
-			}
+		for (int i = 0; i < 9; i++) {
+			this.matrixes[toSubIndex(i)][toRelativeIndex(i)] = new SubMatrix();
 		}
 	}
 	
 	public void clear() {
-		for (int i = 0; i < 3; i++) {
-			for (int j = 0; j < 3; j++) {
-				SubMatrix sub = matrixes[i][j];
-				sub.clear();
-			}
+		for (int i = 0; i < 9; i++) {
+			SubMatrix sub = matrixes[toSubIndex(i)][toRelativeIndex(i)];
+			sub.clear();
 		}
 	}
 	

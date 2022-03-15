@@ -22,6 +22,8 @@ public class Main {
 	@SuppressWarnings("unused")
 	private static void printReporting(ConfigurableApplicationContext context) {
 		Reporting reporting = context.getBean(Reporting.class);
+		System.out.println();
+		System.out.println();
 		System.out.println("Attempts: " + reporting.getGenerationAttempts());
 		System.out.println("Iterations: " + reporting.getIterations());
 	}
